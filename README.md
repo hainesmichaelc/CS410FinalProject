@@ -21,7 +21,7 @@ In our project, we will use the [TMDB movie dataset from Kaggle](https://www.kag
 
 ## Technological Approach
 
-To accomplish these objectives, we will leverage a combination of technologies to build a solution that:
+To accomplish these objectives, we will use a combination of technologies to build a solution that satisfies our objectives:
 
 * SQLite database to store Kaggle data
 * [GPT-3](https://openai.com/api/) for SQL query generation from natural language queries
