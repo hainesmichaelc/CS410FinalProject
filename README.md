@@ -39,8 +39,8 @@ This solution will be delivered through completion of the following tasks, with 
 * `/scripts/prime_gpt3.py` - Develop script to prime GPT-3 for SQL generation - *4 hours*
 * `/scripts/start_app.sh` - Create simple script to start Flask app for local development - *4 hours*
 * `/src/query_handler.py` - Develop the application backend - *12 hours*
-* `/src/index.html` & `/src/query.js` - Develop the HTML & JS front end - *8 hours*
-* `README.md` - Document how to run the solution locally - *2 hours*
+* `/src/index.html` & `/src/query.js` - Develop the HTML & JS front end - *12 hours*
+* `README.md` - Document how to run the solution locally - *1 hour*
     * Initializing local Python environment with required runtime dependencies
     * (Optional) Rebuilding the SQLite database and search indexes
     * Creating and configuring an OpenAI API key for GPT-3 integration
