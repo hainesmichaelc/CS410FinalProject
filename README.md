@@ -57,18 +57,19 @@ We will evaluate the success of our solution by anecdotally assessing performanc
     * Figure out that Johnny Depp plays Jack Sparrow and request list of movies with his name as keyword
 * Who plays She Hulk and what else is as she in?
     * Figure out that character is played by 2 actresses (Tatiana Maslany and Malia Arrayah) and request list of movies with their names as keywords
+* Who is the girl from Ex Machina? And what else is she in?
+    * Figure out that there were 2 primary female characters (Alicia Vikander starring role, Sonoya Mizuno supporting role), request list of movies with their names, present both to user
 * What movies the villain of Thor Love and Thunder in?
     * Figure out that character name is Gorr, played by Christian Bale, and request list of movies with his name as keyword
 * Who directed best movie of 2022?
     * Figure out what the best movies are from that year (multiple awards organizations), use movie name(s) as keywords and request directors
-* What are top RomComs / Dramas that Adam Sandler starred in?
-    * request list of his movies with ratings, figure out category of movies, sort to return top N by category
 * What is the best movie by Rachel from friends?
     * Figure out Rachel was played by Jennifer Aniston, request list of her movies with ratings, sort to return top N
+* What are top RomComs / Dramas that Adam Sandler starred in?
+    * request list of his movies with ratings, figure out category of movies, sort to return top N by category
 * When did Hagrid die, what was cause of death, and what other movies was he in?
-    * Figure out that character played by Robbie Coltran, request list of his movies with his personal information
-* Who is the girl from Ex Machina? And what else is she in?
-    * Figure out that there were 2 primary female characters (Alicia Vikander starring role, Sonoya Mizuno supporting role), request list of movies with their names, present both to user
+    * Figure out that character played by Robbie Coltrane, request list of his movies with his personal information
+
 
 
 ## Non-scope
