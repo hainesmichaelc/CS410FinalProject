@@ -1,8 +1,14 @@
 <html>
     <head>
-        <title>{{ title }}</title>
+        <title>Team-MK Final Project, CS410, Fall 2022</title>
     </head>
     <body>
-        <h1>Hello {{ username }}</h1>
+        <h1>Hello Welcome to our Advanced IMDb Search with NLP</h1>
+        <h2>Team-MK: Michael Haines (mhaines2@illinois.edu) and Kevin Eveker (keveker2@illinois.edu)</h2> 
+        <h3>On this site, we are applying NLP to extract entities from queries to answer relevant questions and surface search results from an IMDB movie dataset</h3>
+        <form action = "http://localhost:81/googlesearchresult" method = "POST">
+            <p>Please enter string for Google Search <input type = "text" name = "searchstring" /></p>
+            <p><input type = "submit" value = "submit" /></p>
+         </form>
     </body>
 </html>
