@@ -1,11 +1,13 @@
 <html>
+    <a href="http://localhost:81/">Home</a>
     <head>
         <title>Team-MK Google Search Result</title>
     </head>
     <body>
         <h1>Team-MK Google Search Result</h1>
         <b>Search String Entered: </b> {{searchstring}} <br>
-        <b>Search Results Received from Google:</b>
-        {{searchresult|safe}}
+        <b>Top 10 Search Results Received from Google:</b>
+
+        <div>{{searchresult|safe}}</div>
     </body>
 </html>
