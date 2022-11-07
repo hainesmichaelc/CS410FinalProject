@@ -80,3 +80,16 @@ As this is intended as a prototype, we will focus our energy on delivering the a
 * Providing rich UX; the web page will be bare bones HTML
 * Supporting dynamically changing data; the prototype will be built on a static dataset
 * Providing a hosted solution; running the solution will require following the instructions documented in this `README.md`
+
+# Running the solution
+
+* Install runtime dependencies with `pip install flask google urllib3 bs4 pandas datasloth`
+* Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and save it in an `OPENAI_API_KEY` environment variable following the [instructions](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety). For MacOS, I did this by running the following code from Terminal:
+
+```bash
+echo "export OPENAI_API_KEY='<your_api_key>'" >> ~/.zshrc
+source ~/.zshrc
+echo $OPENAI_API_KEY
+```
+
+* 
