@@ -7,6 +7,9 @@ import bs4
 import pandas as pd
 import json
 from datasloth import DataSloth
+# from imdb import Cinemagoer
+
+# ia = Cinemagoer()
 
 
 def create_df_from_json(row, field_name, pk_name, fk_name):
@@ -79,6 +82,13 @@ def getBasicIMDBResult(imdb_basic_search_string):
             str_imdb_results_name = str_imdb_results_name[0]
         else:
             str_imdb_results_name = "No IMDb Name Results Found"
+
+        # movies = ia.search_movie('imdb_basic_search_string')
+        # names = ia.search_person('imdb_basic_search_string')
+
+
+        # print(movies)
+        # print(names)
 
         # str_imdb_results_name = "Name Placeholder"
 
