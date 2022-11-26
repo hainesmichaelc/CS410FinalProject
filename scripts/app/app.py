@@ -38,7 +38,7 @@ def imdbbasicesearchresult():
      if request.method == 'POST':
         # print(request)
         imdb_basic_search_string = request.form['searchstring']
-        imdb_url = "https://www.imdb.com/find?q=" + imdb_basic_search_string.replace(" ","+")
+        imdb_url = "https://www.imdb.com/find?q=" + imdb_basic_search_string.replace(" ","+") + "&s=all"
 
         r = http.request('GET', imdb_url)
         soup = bs4.BeautifulSoup(r.data,'html.parser')
