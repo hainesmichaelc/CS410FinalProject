@@ -1,4 +1,3 @@
-
 # Project Proposal
 
 ## Team Members
@@ -70,8 +69,6 @@ We will evaluate the success of our solution by anecdotally assessing performanc
 * When did Hagrid die, what was cause of death, and what other movies was he in?
     * Figure out that character played by Robbie Coltrane, request list of his movies with his personal information
 
-
-
 ## Non-scope
 
 As this is intended as a prototype, we will focus our energy on delivering the aforementioned features. We will not focus so much on:
@@ -80,3 +77,44 @@ As this is intended as a prototype, we will focus our energy on delivering the a
 * Providing rich UX; the web page will be bare bones HTML
 * Supporting dynamically changing data; the prototype will be built on a static dataset
 * Providing a hosted solution; running the solution will require following the instructions documented in this `README.md`
+
+# Running the solution
+
+* Install runtime dependencies with `pip install flask google urllib3 bs4 pandas datasloth`
+* Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and save it in an `OPENAI_API_KEY` environment variable following the [instructions](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety). For MacOS, I did this by running the following code from Terminal:
+
+```bash
+echo "export OPENAI_API_KEY='<your_api_key>'" >> ~/.zshrc
+source ~/.zshrc
+echo $OPENAI_API_KEY
+```
+
+# 11/14/2022 Progress Report
+
+In this progress report, we will answer the following three questions:
+
+1. Which tasks have been completed?
+1. Which tasks are pending?
+1. Are you facing any challenges?
+
+## Which tasks have been completed?
+So far, the team has successfully implemented the following features:
+
+* Set up local deployment infrastructure required to run the solution and load data into server memory as a Pandas dataframe
+* Prototyped a simple html user interface page with search controls
+* Connected the user interface to the flask server backend
+* Integrated the `datasloth` package, which leverages NLP capabilities of GPT-3 to query our Pandas dataframes
+* Integrated the `google` and `bs4` packages to make HTTP search requests to IMDB and Google and scrape the HTML responses
+
+The [datasloth](https://github.com/ibestvina/datasloth) project significantly reduced the amount of code that was needed to integrate with GPT-3, and also prevented us from having to set up a SQLite database.
+
+## Which tasks are still pending?
+The following tasks are still pending:
+
+* Refactor the UI to have a single search control
+* Combine the search functionality on the backend to compile information across all target search engines and present it in a compelling way to the user
+* Measure success against our evaluation queries and tune the GPT-3 integration to produce more compelling/relevant results
+* Harden the query experience to work around edge cases
+
+## Are you facing any challenges?
+We have not faced any significant challenges in developing this project outside of the normal learning curve of working with new tools and technologies. We are approximately 50% complete, making adequate progress and are expected to finish the whole scope of the project having put in the recommended levels of effort.

@@ -1,1 +1,1 @@
-sudo python ./app/app.py
+sudo python3 ./app/app.py
