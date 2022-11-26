@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-#from googlesearch import search
+from googlesearch import search
 import urllib3
 import bs4
 import pandas as pd
@@ -41,21 +41,11 @@ production_companies = production_companies.drop(['id'], axis=1)
 movies = movies.drop(['genres', 'keywords', 'production_companies',
                       'spoken_languages', 'production_countries', 'overview', 'tagline', 'homepage', 'original_title'], axis=1)
 sloth = DataSloth()
+
 http = urllib3.PoolManager()
 app = Flask(__name__)
 
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-"""
-@app.route('/googlesearchresult', methods=['POST', 'GET'])
-def googlesearchresult():
-    if request.method == 'POST':
-        # print(request)
-        google_search_string = request.form['searchstring']
+def getGoogleResult(google_search_string):
         search_result = search(google_search_string, num=10, stop=10)
         search_result_string = "<ol type=\"1\">"
         for item in search_result:
@@ -66,15 +56,10 @@ def googlesearchresult():
             search_result_string += item
             search_result_string += "</li>"
         # print(google_search_string)
-        search_result_string += "</ol>"
-        return render_template('googlesearchresult.html', searchstring=google_search_string, searchresult=search_result_string)
-"""
+        search_result_string += "</ol>" 
+        return search_result_string
 
-@app.route('/imdbbasicsearchresult', methods=['POST', 'GET'])
-def imdbbasicesearchresult():
-    if request.method == 'POST':
-        # print(request)
-        imdb_basic_search_string = request.form['searchstring']
+def getBasicIMDBResult(imdb_basic_search_string):
         imdb_url = "https://www.imdb.com/find?q=" + \
             imdb_basic_search_string.replace(" ", "+") + "&s=all"
 
@@ -97,12 +82,39 @@ def imdbbasicesearchresult():
 
         # str_imdb_results_name = "Name Placeholder"
 
-        str_imdb_results = str_imdb_results_title  # + "<br>" + str_imdb_results_name
+        #str_imdb_results = str_imdb_results_title  + "<br>" + str_imdb_results_name   
+        return str_imdb_results_title, str_imdb_results_name
+
+@app.route('/')
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+@app.route('/googlesearchresult', methods=['POST', 'GET'])
+def googlesearchresult():
+    if request.method == 'POST':
+        # print(request)
+        google_search_string = request.form['searchstring']
+        search_result_string = getGoogleResult(google_search_string)
+
+        return render_template('googlesearchresult.html', searchstring=google_search_string, searchresult=search_result_string)
+
+@app.route('/imdbbasicsearchresult', methods=['POST', 'GET'])
+def imdbbasicesearchresult():
+    if request.method == 'POST':
+        # print(request)
+        imdb_basic_search_string = request.form['searchstring']
+        
+        str_imdb_results_title,str_imdb_results_name=getBasicIMDBResult(imdb_basic_search_string)
+        
         # str_imdb_results = soup.findAll('section',{'data-testid':'find-results-section-title'})[0] + "<br>"
         # str_imdb_results += soup.findAll('section',{'data-testid':'find-results-section-name'})[0]
         # print(str_imdb_results)
 
-        return render_template('imdbbasicsearchresult.html', searchstring=imdb_basic_search_string, imbd_base_results_title=str_imdb_results_title, imbd_base_results_name=str_imdb_results_name)
+        return render_template('imdbbasicsearchresult.html', \
+            searchstring=imdb_basic_search_string, \
+            imbd_base_results_title=str_imdb_results_title, \
+            imbd_base_results_name=str_imdb_results_name)
 
 
 @app.route('/imdbanswer', methods=['POST', 'GET'])
@@ -112,5 +124,21 @@ def imdb_answer():
         answer = sloth.query(question)
         return render_template('imdbanswer.html', searchstring=question, answer=answer)
 
+@app.route('/combinedsearchresult', methods=['POST', 'GET'])
+def combined_search_result():
+    if request.method == 'POST':
+        question = request.form['searchstring']
+
+        google_result_string = getGoogleResult(question)
+
+        str_imdb_results_title,str_imdb_results_name=getBasicIMDBResult(question)
+
+        answer = sloth.query(question)
+        return render_template('combinedsearchresult.html', 
+            searchstring=question, \
+            googlesearchresult=google_result_string, \
+            basicimdbsearchtitle = str_imdb_results_title, \
+            basicimdbsearchname = str_imdb_results_name, \
+            teammksearchresult=answer)
 
 app.run(host='0.0.0.0', port=81)

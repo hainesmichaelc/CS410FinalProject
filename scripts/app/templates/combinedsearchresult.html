@@ -1,0 +1,41 @@
+<html>
+    <a href="http://localhost:81/">Home</a>
+    <head>
+        <title>Team-MK Google Search Result</title>
+    </head>
+    <body>
+        <h1>Team-MK Google Search Result</h1>
+        <b>Search String Entered: </b> {{searchstring}} <br>
+        <br>
+        <br>
+        <br>
+
+        <section>
+            <b>Search Results Received from TeamMK Query Engine:</b>
+
+            <div>{{teammksearchresult|safe}}</div>
+        </section>
+        <br>
+        <br>
+        <br>
+
+        <section>
+            <b>Search Results Received from BasicIMdB:</b>
+
+            <div>{{basicimdbsearchtitle|safe}}</div>
+            <div>{{basicimdbsearchname|safe}}</div>
+
+        </section>
+        <br>
+        <br>
+        <br>
+
+        <section>
+            <b>Top 10 Search Results Received from Google:</b>
+
+            <div>{{googlesearchresult|safe}}</div>
+        </section>
+
+
+    </body>
+</html>
