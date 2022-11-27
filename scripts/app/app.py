@@ -7,9 +7,10 @@ import bs4
 import pandas as pd
 import json
 from datasloth import DataSloth
-# from imdb import Cinemagoer
+from imdb import Cinemagoer
+import time
 
-# ia = Cinemagoer()
+ia = Cinemagoer()
 
 
 def create_df_from_json(row, field_name, pk_name, fk_name):
@@ -43,7 +44,8 @@ keywords = keywords.drop(['id'], axis=1)
 production_companies = production_companies.drop(['id'], axis=1)
 movies = movies.drop(['genres', 'keywords', 'production_companies',
                       'spoken_languages', 'production_countries', 'overview', 'tagline', 'homepage', 'original_title'], axis=1)
-sloth = DataSloth()
+# sloth = DataSloth()
+sloth = DataSloth(openai_api_key="sk-vKvOuoFAKE_FAKE_FAKE_FAKE_fZmmYDlUcif2f") # put your key here this is fake
 
 http = urllib3.PoolManager()
 app = Flask(__name__)
@@ -95,6 +97,35 @@ def getBasicIMDBResult(imdb_basic_search_string):
         #str_imdb_results = str_imdb_results_title  + "<br>" + str_imdb_results_name   
         return str_imdb_results_title, str_imdb_results_name
 
+def getIMDBResultsName(searchString):
+    
+    people = ia.search_person(searchString)
+    str_imdb_results_name="<ol type=\"1\">"
+    for person in people:
+        curUrl =ia.get_imdbURL(person)
+        str_imdb_results_name +="<li>"
+        cur_html="<a href=\"" + curUrl + "\"> " + person['name'] 
+        str_imdb_results_name+=cur_html
+        str_imdb_results_name+="</li>"
+    str_imdb_results_name += "</ol>" 
+
+    return str_imdb_results_name
+
+def getIMDBResultsTitle(searchString):
+    
+    movies = ia.search_movie(searchString)
+    str_imdb_results_title="<ol type=\"1\">"
+    for item in movies:
+        curUrl =ia.get_imdbURL(item)
+        str_imdb_results_title +="<li>"
+        cur_html="<a href=\"" + curUrl + "\"> " + item['title'] 
+        str_imdb_results_title+=cur_html
+        str_imdb_results_title+="</li>"
+    str_imdb_results_title += "</ol>" 
+
+
+    return str_imdb_results_title
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -115,7 +146,16 @@ def imdbbasicesearchresult():
         # print(request)
         imdb_basic_search_string = request.form['searchstring']
         
-        str_imdb_results_title,str_imdb_results_name=getBasicIMDBResult(imdb_basic_search_string)
+        str_imdb_results_title=getIMDBResultsTitle(imdb_basic_search_string)
+        if (len(str_imdb_results_title)==18):
+            time.sleep(3)
+            str_imdb_results_title = getIMDBResultsTitle(imdb_basic_search_string)
+        str_imdb_results_name=getIMDBResultsName(imdb_basic_search_string)
+        if (len(str_imdb_results_name)==18):
+            time.sleep(3)
+            str_imdb_results_name=getIMDBResultsName(imdb_basic_search_string)
+
+        # str_imdb_results_title,str_imdb_results_name=getBasicIMDBResult(imdb_basic_search_string)
         
         # str_imdb_results = soup.findAll('section',{'data-testid':'find-results-section-title'})[0] + "<br>"
         # str_imdb_results += soup.findAll('section',{'data-testid':'find-results-section-name'})[0]
@@ -141,7 +181,15 @@ def combined_search_result():
 
         google_result_string = getGoogleResult(question)
 
-        str_imdb_results_title,str_imdb_results_name=getBasicIMDBResult(question)
+        # str_imdb_results_title,str_imdb_results_name=getBasicIMDBResult(question)
+        str_imdb_results_title=getIMDBResultsTitle(question)
+        if (len(str_imdb_results_title)==18):
+            time.sleep(3)
+            str_imdb_results_title = getIMDBResultsTitle(question)
+        str_imdb_results_name=getIMDBResultsName(question)
+        if (len(str_imdb_results_name)==18):
+            time.sleep(3)
+            str_imdb_results_name=getIMDBResultsName(question)
 
         answer = sloth.query(question)
         return render_template('combinedsearchresult.html', 
