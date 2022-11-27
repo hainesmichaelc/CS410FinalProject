@@ -45,7 +45,7 @@ production_companies = production_companies.drop(['id'], axis=1)
 movies = movies.drop(['genres', 'keywords', 'production_companies',
                       'spoken_languages', 'production_countries', 'overview', 'tagline', 'homepage', 'original_title'], axis=1)
 # sloth = DataSloth()
-sloth = DataSloth(openai_api_key="sk-vKvOuoFAKE_FAKE_FAKE_FAKE_fZmmYDlUcif2f") # put your key here this is fake
+sloth = DataSloth(openai_api_key="sk-vKvOu_FAKE_FAKE_FAKE_FAKE_YDlUcif2f") #dont forget to change key
 
 http = urllib3.PoolManager()
 app = Flask(__name__)
@@ -59,6 +59,7 @@ def getGoogleResult(google_search_string):
             search_result_string += item
             search_result_string += "\">"
             search_result_string += item
+            search_result_string += "</a>"
             search_result_string += "</li>"
         # print(google_search_string)
         search_result_string += "</ol>" 
@@ -104,7 +105,7 @@ def getIMDBResultsName(searchString):
     for person in people:
         curUrl =ia.get_imdbURL(person)
         str_imdb_results_name +="<li>"
-        cur_html="<a href=\"" + curUrl + "\"> " + person['name'] 
+        cur_html="<a href=\"" + curUrl + "\"> " + person['name'] + "</a>"
         str_imdb_results_name+=cur_html
         str_imdb_results_name+="</li>"
     str_imdb_results_name += "</ol>" 
@@ -118,7 +119,7 @@ def getIMDBResultsTitle(searchString):
     for item in movies:
         curUrl =ia.get_imdbURL(item)
         str_imdb_results_title +="<li>"
-        cur_html="<a href=\"" + curUrl + "\"> " + item['title'] 
+        cur_html="<a href=\"" + curUrl + "\"> " + item['title'] + "</a>"
         str_imdb_results_title+=cur_html
         str_imdb_results_title+="</li>"
     str_imdb_results_title += "</ol>" 
