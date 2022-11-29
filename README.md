@@ -1,3 +1,21 @@
+*Applying NLP to extract entities from queries to answer relevant questions and surface search results from an IMDB movie dataset*
+
+# Running the Solution
+
+Runtime dependencies:
+
+* We have tested using a Python 3.9.6 runtime. No guarantees using any other python version.
+* Install required runtime dependencies with `pip install flask google urllib3 bs4 sqlite3 pandas datasloth cinemagoer`
+* Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and copy it to the clipboard. Paste it in the `/src/config.py` file, replacing `"<YOUR_KEY_HERE>"`, so that it can be used at runtime.
+
+Usage instructions:
+
+* If you are starting the application for the first time, you need to initialize the SQLite database. You can do this by running the `/scripts/init_db.py` script (this might take ~30 seconds to complete)
+* After initializing the database, start the Flask server with by running `./scripts/start_app.sh` from a bash shell
+* Access the application by navigating to `http://localhost:81/`
+
+Note that the latest movie in the dataset was released in 2017, so you will not have luck asking questions about movies that have been released since then. Happy searching!
+
 # Project Proposal
 
 ## Team Members
@@ -6,8 +24,6 @@
 * Kevin Eveker (keveker2)
 
 ## Topic & Motivation
-
-*Applying NLP to extract entities from queries to answer relevant questions and surface search results from an IMDB movie dataset*
 
 [IMDB](https://imdb.com) offers search functionality as a primary entry point for finding movies in their database.  This feature does a great job at matching titles based on keyword search. For example, searching `Billy Madison` returns several titles, with the 1995 Adam Sandler classic as the top hit. This is the most relevant result, and matches what I would expect. However, the search also returns several people using a simple keyword search based on the query terms. I would expect `Adam Sandler` to be the first result, but in fact the first person is former Playboy bunny `Holly Madison`. Note that search by actor performs well - searching `Adam Sandler` returns the actor as the most relevant person, a TV special called `Adam Sandler: 100% Fresh` as the most relevant title, with `Hubie Halloween` and `Grown Ups` as the second most relevant (both of which are movies starring and written by Adam Sandler the person).
 
@@ -54,13 +70,11 @@ We will evaluate the success of our solution by anecdotally assessing performanc
 
 * What other movies was the actor that played Jack Sparrow in?
     * Figure out that Johnny Depp plays Jack Sparrow and request list of movies with his name as keyword
-* Which actress played She Hulk and what else was she in?
-    * Figure out that character is played by 2 actresses (Tatiana Maslany and Malia Arrayah) and request list of movies with their names as keywords
 * Who is the girl from Ex Machina and what else is she in?
     * Figure out that there were 2 primary female characters (Alicia Vikander starring role, Sonoya Mizuno supporting role), request list of movies with their names, present both to user
 * What movies are the villain from Thor Love and Thunder in?
     * Figure out that character name is Gorr, played by Christian Bale, and request list of movies with his name as keyword
-* Who directed best movie of 2022?
+* Who directed the best movie of 2016?
     * Figure out what the best movies are from that year (multiple awards organizations), use movie name(s) as keywords and request directors
 * What is the best movie with Rachel from Friends?
     * Figure out Rachel was played by Jennifer Aniston, request list of her movies with ratings, sort to return top N
@@ -77,17 +91,6 @@ As this is intended as a prototype, we will focus our energy on delivering the a
 * Providing rich UX; the web page will be bare bones HTML
 * Supporting dynamically changing data; the prototype will be built on a static dataset
 * Providing a hosted solution; running the solution will require following the instructions documented in this `README.md`
-
-# Running the solution
-
-* Install runtime dependencies with `pip install flask google urllib3 bs4 pandas datasloth`
-* Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and save it in an `OPENAI_API_KEY` environment variable following the [instructions](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety). For MacOS, I did this by running the following code from Terminal:
-
-```bash
-echo "export OPENAI_API_KEY='<your_api_key>'" >> ~/.zshrc
-source ~/.zshrc
-echo $OPENAI_API_KEY
-```
 
 # 11/14/2022 Progress Report
 

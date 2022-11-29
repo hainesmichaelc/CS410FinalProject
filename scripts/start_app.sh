@@ -1,1 +1,3 @@
-sudo python3 ./app/app.py
+#!/bin/bash
+
+sudo python3 ../src/app.py

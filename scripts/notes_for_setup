@@ -1,8 +1,0 @@
-pip install flask
-pip install google
-pip install urllib3
-pip install bs4
-
-xcode-select --install
-pip install lxml
-pip install cinemagoer
