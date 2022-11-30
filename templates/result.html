@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Team MK | IMDB Search</title>
+    </head>
+    <body>
+        <a href="http://localhost:81/">Back</a>
+        <h1>Search Results</h1>
+        <b>Question:</b> {{search_string}} <br /><br />
+        <b>Answer:</b> {{answer|safe}} <br /><br />
+        <b>Generated Database Query:</b> <br /><br /> {{db_query|safe}} <br /><br />
+        <h1>IMDB Search Results</h1>
+        <h3>Movies:</h3>
+        <div>{{imdb_movies|safe}}</div>
+        <h3>People:</h3>
+        <div>{{imdb_people|safe}}</div>
+        <h1>Google Search Results</h1>
+        <div>{{google_results|safe}}</div>
+    </body>
+</html>

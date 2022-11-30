@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Team MK | IMDB Search</title>
+</head>
+
+<body>
+    <h1>Search IMDB with Natural Language Queries</h1>
+    <p>We have collected a dataset of movies, reviews, casts, crews, etc. Use the search bar below to ask questions
+        and see if we can answer them and provide some useful supplementary links. For example, you could ask
+        any of the following simple questions:</p>
+    <ul>
+        <li>When did Titanic premier?</li>
+        <li>What was Leanardo Di Caprio's most hated movie?</li>
+        <li>What was the most popular movie from 2016</li>
+    </ul>
+    <p>Or, you could ask more complicated questions:</p>
+    <ul>
+        <li>What other movies was the actor that played Jack Sparrow in?</li>
+        <li>Who was the actress from Ex Machina and what else has she been in?</li>
+        <li>What movies are the villain from Thor Love and Thunder in?</li>
+        <li>What is the best movie with Rachel from Friends?</li>
+    </ul>
+    <p>We do our best to handle whatever queries you have, but are limited to the data that we have. The more
+        complicated the question, the less likely we will be able to answer.</p>
+    <form action="http://localhost:81/result" method="POST">
+        <p>Give it a try!<input type="text" name="searchstring" /></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+</body>
+
+</html>
