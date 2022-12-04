@@ -7,11 +7,9 @@ import bs4
 import pandas as pd
 import sqlite3
 from datasloth import DataSloth
-from imdb import Cinemagoer
 import time
 import config as cfg
 
-ia = Cinemagoer()
 
 # connect to the SQLite database and read the data into memory
 conn = sqlite3.connect('./db/movies.db')
@@ -40,50 +38,54 @@ def google_search(search_string):
 
 
 # search imdb people via HTTP request
-def imdb_search(search_string):
+def imdb_search_movies(search_string):
     url = "https://www.imdb.com/find?q=" + \
         search_string.replace(" ", "+") + "&s=all"
-    headers = { 'User-Agent': cfg.browser }
+    headers = {'User-Agent': cfg.browser}
     req = http.request('GET', url, headers=headers)
     soup = bs4.BeautifulSoup(req.data, 'html.parser')
     res_title = soup.findAll(
         'section', {'data-testid': 'find-results-section-title'})
     if (len(res_title) == 1):
-        res_title = res_title[0]
-    else:
-        res_title = "None found"
-    res_name = soup.findAll(
-        'section', {'data-testid': 'find-results-section-name'})
-    if (len(res_name) == 1):
-        res_name = res_name[0]
-    else:
-        res_name = "None found"
-    return res_title, res_name
-
-
-# search imdb people via HTTP request
-def imdb_search_people(search_string):
-    people = ia.search_person(search_string)
-    results = "<ol>"
-    for person in people:
-        url = ia.get_imdbURL(person)
-        results += "<li><a href=\"" + url + "\">" + person['name'] + "</a></li>"
-    results += "</ol>"
-    return results
+        list_titles = res_title[0].contents[1].contents[0].contents
+        if isinstance(list_titles[0], str):
+            return list_titles[0]
+        titles = [title.contents[1].contents[0].contents[0].contents[0] for title in list_titles]
+        links = [title.contents[1].contents[0].contents[0].attrs["href"] for title in list_titles]
+        titles_html = "<ol>"
+        for i in range(0, len(titles)):
+            titles_html += "<li><a href=\"https://www.imdb.com" + links[i] + \
+            "\">" + titles[i] + "</a></li>"
+        titles_html += "</ol>"
+        return titles_html
+    return "No results found..."
 
 
 # search imdb movies via HTTP request
-def imdb_search_movies(search_string):
-    movies = ia.search_movie(search_string)
-    results = "<ol>"
-    for movie in movies:
-        url = ia.get_imdbURL(movie)
-        results += "<li><a href=\"" + url + "\">" + movie['title'] + "</a></li>"
-    results += "</ol>"
-    return results
+def imdb_search_people(search_string):
+    url = "https://www.imdb.com/find?q=" + \
+        search_string.replace(" ", "+") + "&s=all"
+    headers = {'User-Agent': cfg.browser}
+    req = http.request('GET', url, headers=headers)
+    soup = bs4.BeautifulSoup(req.data, 'html.parser')
+    res_name = soup.findAll(
+        'section', {'data-testid': 'find-results-section-name'})
+    if (len(res_name) == 1):
+        list_names = res_name[0].contents[1].contents[0].contents
+        if isinstance(list_names[0], str):
+            return list_names[0]
+        names = [name.contents[1].contents[0].contents[0].contents[0] for name in list_names]
+        links = [name.contents[1].contents[0].contents[0].attrs["href"] for name in list_names]
+        names_html = "<ol>"
+        for i in range(0, len(names)):
+            names_html += "<li><a href=\"https://www.imdb.com" + links[i] + \
+            "\">" + names[i] + "</a></li>"
+        names_html += "</ol>"
+        return names_html
+    return "No results found..."
 
 
-# format GPT-3 answer 
+# format GPT-3 answer
 def format_answer(answer):
     if answer is None or answer.shape[0] == 0:
         return "D'oh! We couldn't answer that one..."
@@ -112,14 +114,16 @@ def search_result():
                 "m": movies, "ca": cast, "cr": crew, "p": production_companies, "g": genres, "k": keywords})
             db_query = sloth.last_prompt[1].replace("\n", "<br />")
             google_results = google_search(question)
-            imdb_movies, imdb_people = imdb_search(question)
+            imdb_movies = imdb_search_movies(question)
+            imdb_people = imdb_search_people(question)
             return render_template('result.html',
-                                search_string=question,
-                                answer=format_answer(answer),
-                                db_query=db_query,
-                                imdb_movies=imdb_movies,
-                                imdb_people=imdb_people,
-                                google_results=google_results)
+                                   search_string=question,
+                                   answer=format_answer(answer),
+                                   db_query=db_query,
+                                   imdb_movies=imdb_movies,
+                                   imdb_people=imdb_people,
+                                   google_results=google_results)
         return render_template('notfound.html')
+
 
 app.run(host='0.0.0.0', port=81)
