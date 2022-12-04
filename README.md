@@ -5,13 +5,16 @@
 Runtime dependencies:
 
 * We have tested using a Python 3.9.6 runtime. No guarantees using any other python version.
-* Install required runtime dependencies with `pip install flask google urllib3 bs4 sqlite3 pandas datasloth cinemagoer`
+  * git clone https://github.com/hainesmichaelc/CS410FinalProject.git
+  * conda create --name envTeam-MK python=3.9.6
+  * conda activate envTeam-MK
+* Install required runtime dependencies with `pip install flask google urllib3 bs4 pandas datasloth cinemagoer`
 * Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and copy it to the clipboard. Paste it in the `./src/config.py` file, replacing `"<YOUR_KEY_HERE>"`, so that it can be used at runtime.
 
 Usage instructions:
 
 * If you are starting the application for the first time, you need to initialize the SQLite database. You can do this by cd to the scripts directory and running 'python ./init_db.py` script (this might take ~30 seconds to complete)
-* After initializing the database, start the Flask server by cd into the scripts directory and running `./start_app.sh` from a bash shell
+* After initializing the database, start the Flask server from the main directory with app.py by running `./scripts/start_app.sh` from a bash shell
 * Access the application by navigating to `http://localhost:81/`
 
 Note that the latest movie in the dataset was released in 2017, so you will not have luck asking questions about movies that have been released since then. Happy searching!
