@@ -9,7 +9,7 @@ Runtime dependencies:
   * conda create --name envTeam-MK python=3.9.6
   * conda activate envTeam-MK
 * Install required runtime dependencies with `pip install flask google urllib3 bs4 pandas datasloth cinemagoer`
-* Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and copy it to the clipboard. Paste it in the `./src/config.py` file, replacing `"<YOUR_KEY_HERE>"`, so that it can be used at runtime.
+* Generate an [OpenAI API key](https://beta.openai.com/account/api-keys) and copy it to the clipboard. Paste it in the `config.py` file, replacing `"<YOUR_KEY_HERE>"`, so that it can be used at runtime.
 
 Usage instructions:
 
