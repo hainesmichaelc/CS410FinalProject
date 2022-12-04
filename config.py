@@ -1,2 +1,2 @@
-openai_api_key = "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"
+openai_api_key = "sk-secret"
 browser = 'Mozilla/5.0'
