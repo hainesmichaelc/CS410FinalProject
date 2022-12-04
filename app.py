@@ -30,13 +30,35 @@ app = Flask(__name__)
 
 
 # search google via HTTP request
-def google_search(google_search_string):
-    search_result = search(google_search_string, num=10, stop=10)
+def google_search(search_string):
+    search_result = search(search_string, num=10, stop=10)
     result = "<ol type=\"1\">"
     for item in search_result:
         result += "<li><a href=\"" + item + "\">" + item + "</a></li>"
     result += "</ol>"
     return result
+
+
+# search imdb people via HTTP request
+def imdb_search(search_string):
+    url = "https://www.imdb.com/find?q=" + \
+        search_string.replace(" ", "+") + "&s=all"
+    headers = { 'User-Agent': cfg.browser }
+    req = http.request('GET', url, headers=headers)
+    soup = bs4.BeautifulSoup(req.data, 'html.parser')
+    res_title = soup.findAll(
+        'section', {'data-testid': 'find-results-section-title'})
+    if (len(res_title) == 1):
+        res_title = res_title[0]
+    else:
+        res_title = "None found"
+    res_name = soup.findAll(
+        'section', {'data-testid': 'find-results-section-name'})
+    if (len(res_name) == 1):
+        res_name = res_name[0]
+    else:
+        res_name = "None found"
+    return res_title, res_name
 
 
 # search imdb people via HTTP request
@@ -67,6 +89,8 @@ def format_answer(answer):
         return "D'oh! We couldn't answer that one..."
     elif answer.shape == (1, 1):
         return answer.iloc[0][0]
+    elif answer.shape[0] > 100:
+        return " Limiting to first 100 results...<br /><br />" + answer[0:100].to_html()
     else:
         return "<br /><br />" + answer.to_html()
 
@@ -83,18 +107,19 @@ def index():
 def search_result():
     if request.method == 'POST':
         question = request.form['searchstring']
-        answer = sloth.query(question, {
-            "m": movies, "ca": cast, "cr": crew, "p": production_companies, "g": genres, "k": keywords})
-        db_query = sloth.last_prompt[1].replace("\n", "<br />")
-        google_results = google_search(question)
-        imdb_movies = imdb_search_movies(question)
-        imdb_people = imdb_search_people(question)
-        return render_template('result.html',
-                               search_string=question,
-                               answer=format_answer(answer),
-                               db_query=db_query,
-                               imdb_movies=imdb_movies,
-                               imdb_people=imdb_people,
-                               google_results=google_results)
+        if question:
+            answer = sloth.query(question, {
+                "m": movies, "ca": cast, "cr": crew, "p": production_companies, "g": genres, "k": keywords})
+            db_query = sloth.last_prompt[1].replace("\n", "<br />")
+            google_results = google_search(question)
+            imdb_movies, imdb_people = imdb_search(question)
+            return render_template('result.html',
+                                search_string=question,
+                                answer=format_answer(answer),
+                                db_query=db_query,
+                                imdb_movies=imdb_movies,
+                                imdb_people=imdb_people,
+                                google_results=google_results)
+        return render_template('notfound.html')
 
 app.run(host='0.0.0.0', port=81)
